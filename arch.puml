@@ -1,0 +1,56 @@
+``` planuml
+@startuml arch
+
+database world_store
+
+node llm_service
+
+folder Shell {
+    card world_state
+    world_store <--> world_state
+
+    card prompt_generator
+
+    world_state --> prompt_generator
+
+    card action_handler
+
+    prompt_generator <-- action_handler
+
+    card llm_client
+
+    llm_client <-- prompt_generator
+    llm_service <--> llm_client
+
+    card response_interpreter
+
+    llm_client --> response_interpreter
+
+    card confirmation
+
+    response_interpreter --> confirmation
+
+    card update
+
+    update <-- confirmation
+    world_state <-- update
+
+    card query
+
+    world_state --> query
+
+    card API
+
+    action_handler <-- API
+    confirmation <--> API
+    query --> API
+}
+
+card Jupyter
+card Repl
+
+API <--> Jupyter
+API <--> Repl
+
+@enduml
+```
